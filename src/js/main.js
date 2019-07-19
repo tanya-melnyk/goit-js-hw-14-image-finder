@@ -22,6 +22,7 @@ const refs = {
 const infScrollInstance = new InfiniteScroll(refs.gallery, {
   path: '{{#}}',
   status: '.page-load-status',
+  scrollThreshold: 100,
 });
 
 // adding event listeners
@@ -66,4 +67,4 @@ function clearListItems() {
   refs.gallery.innerHTML = '';
 }
 
-infScrollInstance.on('load', fetchPhotos);
+infScrollInstance.on('scrollThreshold', fetchPhotos);
