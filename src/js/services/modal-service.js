@@ -7,7 +7,12 @@ import spinner from './spinner';
 export default function openModalBtnClickHandler(e) {
   const targetElem = e.target;
 
-  if (targetElem.textContent !== 'zoom_out_map') return;
+  if (
+    targetElem.textContent !== 'zoom_out_map' &&
+    !targetElem.classList.contains('fullscreen-button')
+  ) {
+    return;
+  }
 
   const photoCard = targetElem.closest('.photo-card');
   const img = photoCard.querySelector('img');
