@@ -36,7 +36,8 @@ module.exports = env => ({
           {
             loader: 'url-loader',
             options: {
-              name: '[path][name].[ext]',
+              name: '[name].[ext]',
+              outputPath: 'fonts/',
               limit: 10000,
               mimetype: 'application/font-woff',
             },
