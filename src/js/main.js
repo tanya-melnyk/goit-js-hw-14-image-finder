@@ -19,8 +19,11 @@ const refs = {
 };
 
 // initializing Infinite Scroll plugin
-const infScrollInstance = new InfiniteScroll(refs.gallery, { path: '{{#}}' });
-infScrollInstance.on('load', fetchPhotos);
+const infScrollInstance = new InfiniteScroll(refs.gallery, {
+  path: '{{#}}',
+  status: '.page-load-status',
+});
+
 
 // adding event listeners
 refs.searchForm.addEventListener('submit', searchFormSubmitHandler);
@@ -39,6 +42,8 @@ function searchFormSubmitHandler(e) {
 
   // input.value = '';
 }
+
+infScrollInstance.on('load', fetchPhotos);
 
 function fetchPhotos() {
   spinner.show();
