@@ -6,7 +6,6 @@ import 'material-design-icons/iconfont/material-icons.css';
 // helpers
 import apiPhotoService from './services/photos-service';
 import openModalBtnClickHandler from './services/modal-service';
-import spinner from './services/spinner';
 import InfiniteScroll from 'infinite-scroll';
 
 // HTML template
@@ -44,12 +43,9 @@ function searchFormSubmitHandler(e) {
 }
 
 function fetchPhotos() {
-  spinner.show();
-
   apiPhotoService
     .fetchArticles()
     .then(photos => {
-      spinner.hide();
       renderPhotoCards(photos);
     })
     .catch(error => {
