@@ -24,7 +24,6 @@ const infScrollInstance = new InfiniteScroll(refs.gallery, {
   status: '.page-load-status',
 });
 
-
 // adding event listeners
 refs.searchForm.addEventListener('submit', searchFormSubmitHandler);
 refs.gallery.addEventListener('click', openModalBtnClickHandler);
@@ -42,8 +41,6 @@ function searchFormSubmitHandler(e) {
 
   // input.value = '';
 }
-
-infScrollInstance.on('load', fetchPhotos);
 
 function fetchPhotos() {
   spinner.show();
@@ -68,3 +65,5 @@ function renderPhotoCards(photos) {
 function clearListItems() {
   refs.gallery.innerHTML = '';
 }
+
+infScrollInstance.on('load', fetchPhotos);
