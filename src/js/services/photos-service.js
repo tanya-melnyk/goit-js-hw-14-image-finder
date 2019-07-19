@@ -1,13 +1,13 @@
 'use strict';
 
-import axios from 'axios';
+// import axios from 'axios';
 
 // const corsAnywhere = 'https://cors-anywhere.herokuapp.com/';
 const baseURL = 'https://pixabay.com/api/';
 const key = '&key=12880088-5f1634c62e30865f461701c2f';
 const params = '?image_type=photo&orientation=horizontal&per_page=12';
 
-axios.defaults.baseURL = baseURL + params + key;
+// axios.defaults.baseURL = baseURL + params + key;
 
 export default {
   page: 1,
@@ -15,16 +15,27 @@ export default {
   fetchArticles() {
     const requestParams = `&q=${this.query}&page=${this.page}`;
 
-    return axios
-      .get(requestParams)
-      .then(response => {
+    return fetch(baseURL + params + key + requestParams)
+      .then(response => response.json())
+      .then(parsedResponse => {
         this.incrementPage();
 
-        return response.data.hits;
+        return parsedResponse.hits;
       })
       .catch(error => {
         throw error;
       });
+
+    // return axios
+    //   .get(requestParams)
+    //   .then(response => {
+    //     this.incrementPage();
+
+    //     return response.data.hits;
+    //   })
+    //   .catch(error => {
+    //     throw error;
+    //   });
   },
 
   get searchQuery() {
