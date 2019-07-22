@@ -14,12 +14,23 @@ body {
     Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
   color: #212121;
   background-color: #fff;
+  text-align: center;
 }
 
 img {
   display: block;
   max-width: 100%;
   height: auto;
+}
+
+.title {
+  height: 500px;
+  line-height: 500px;
+  font-size: 36px;
+  background-image: url('https://zinniaskystudio.com/wp-content/uploads/2018/03/NS3003-Bunch-of-Saguaros.jpg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
 }
 
 /* Стили компонента App */
