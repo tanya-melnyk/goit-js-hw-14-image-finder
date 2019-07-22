@@ -3,26 +3,18 @@
 // styles
 import 'material-design-icons/iconfont/material-icons.css';
 
-// helpers
-import apiPhotoService from './services/photos-service';
-import openModalBtnClickHandler from './services/modal-service';
-import InfiniteScroll from 'infinite-scroll';
-
 // HTML template
 import photoCardTemplate from '../templates/photo-card.hbs';
+
+// helpers
+import InfiniteScroll from 'infinite-scroll';
+import openModalBtnClickHandler from './services/modal-service';
 
 // DOM elements
 const refs = {
   searchForm: document.querySelector('.search-form'),
   gallery: document.querySelector('.gallery'),
 };
-
-// initializing Infinite Scroll plugin
-const infScrollInstance = new InfiniteScroll(refs.gallery, {
-  path: '{{#}}',
-  status: '.page-load-status',
-  scrollThreshold: 100,
-});
 
 // adding event listeners
 refs.searchForm.addEventListener('submit', searchFormSubmitHandler);
@@ -35,32 +27,43 @@ function searchFormSubmitHandler(e) {
   const form = e.currentTarget;
   const input = form.elements.query;
 
-  apiPhotoService.resetPage();
-  apiPhotoService.searchQuery = input.value;
-  fetchPhotos();
+  const corsAnywhere = 'https://cors-anywhere.herokuapp.com/';
+  const baseURL = 'https://pixabay.com/api/';
+  const params = '?image_type=photo&orientation=horizontal&per_page=12';
+  const key = '&key=12880088-5f1634c62e30865f461701c2f';
 
-  // input.value = '';
-}
+  const infScrollInstance = new InfiniteScroll(refs.gallery, {
+    responseType: 'text',
+    history: false,
+    path() {
+      return (
+        corsAnywhere +
+        baseURL +
+        params +
+        key +
+        `&q=${input.value}` +
+        `&page=${this.pageIndex}`
+      );
+    },
+  });
 
-function fetchPhotos() {
-  apiPhotoService
-    .fetchArticles()
-    .then(photos => {
-      renderPhotoCards(photos);
-    })
-    .catch(error => {
-      console.warn(error);
-    });
-}
+  infScrollInstance.pageIndex = 1;
 
-function renderPhotoCards(photos) {
-  const markup = photoCardTemplate(photos);
+  infScrollInstance.on('load', response => {
+    const photosData = JSON.parse(response);
+    const photos = photosData.hits;
+    const markup = photoCardTemplate(photos);
 
-  refs.gallery.insertAdjacentHTML('beforeend', markup);
+    const proxyEl = document.createElement('div');
+    proxyEl.innerHTML = markup;
+
+    const parsedItems = proxyEl.querySelectorAll('.gallery-item');
+    infScrollInstance.appendItems(parsedItems);
+  });
+
+  infScrollInstance.loadNextPage();
 }
 
 function clearListItems() {
   refs.gallery.innerHTML = '';
 }
-
-infScrollInstance.on('scrollThreshold', fetchPhotos);

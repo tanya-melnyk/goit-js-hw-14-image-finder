@@ -68,4 +68,5 @@ typings/
 .env.production.local
 
 # test file
-scroll-test.js
+main-fetch.js
+photo-service.js
