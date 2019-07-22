@@ -69,4 +69,4 @@ typings/
 
 # test file
 main-fetch.js
-photo-service.js
+photos-service.js
